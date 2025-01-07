@@ -15,7 +15,7 @@ messages = [context]
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 engine.setProperty('rate', 150) 
-engine.setProperty('volume', 1.0)  
+engine.setProperty('volume', 1.0) 
 
 while True:
     try:
@@ -38,8 +38,9 @@ while True:
             response = client.chat.completions.create(
                 model="gpt-4-turbo",
                 messages=messages,
-                max_tokens=500,
+                max_tokens=100,
                 temperature=0.7,
+                max_completion_tokens=100
             )
             """ response_content = response.choices[0].message['content'] """
             response_content = response.choices[0].message.content
