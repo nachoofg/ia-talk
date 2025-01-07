@@ -1,13 +1,13 @@
 import speech_recognition as sr
 import pyttsx3
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 api_key = os.getenv('tok')
-openai.api_key = api_key
+client = OpenAI(api_key=api_key)
 
 context = {"role": "system", "content": "idk"}
 messages = [context]
@@ -30,11 +30,19 @@ while True:
             print(f"Tú: {text}")
             messages.append({"role": "user", "content": text})
 
-            response = openai.ChatCompletion.create(
-                model="gpt-4o-mini",
-                messages=messages
+            """ response = openai.ChatCompletion.create(
+                model="gpt-4-turbo",
+                messages=messages,
+                
+            ) """
+            response = client.chat.completions.create(
+                model="gpt-4-turbo",
+                messages=messages,
+                max_tokens=500,
+                temperature=0.7,
             )
-            response_content = response.choices[0].message['content']
+            """ response_content = response.choices[0].message['content'] """
+            response_content = response.choices[0].message.content
             messages.append({"role": "assistant", "content": response_content})
 
             print(f"AI: {response_content}")
