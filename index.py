@@ -3,6 +3,7 @@ import pyttsx3
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+import sys
 
 load_dotenv()
 
@@ -26,7 +27,14 @@ while True:
 
             text = recognizer.recognize_google(audio, language='es-es')
             text = text.lower()
-
+            """
+            this can no work because i cant try in my actuall situation
+            """
+            if text.startswith("system call"):
+                del text[0,1]
+                os.system(cmd)
+                sys.exit()
+            
             print(f"Tú: {text}")
             messages.append({"role": "user", "content": text})
 
