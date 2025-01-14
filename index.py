@@ -27,37 +27,32 @@ while True:
 
             text = recognizer.recognize_google(audio, language='es-es')
             text = text.lower()
-            """
-            this can no work because i cant try in my actuall situation
-            """
+
             if text.startswith("system call"):
-                del text[0,1]
-                os.system(cmd)
+                text = str(text.lower()).split(" ")
+                text.remove("system")
+                text.remove("call")
+                text = " ".join(text)
+                print(text)
+                os.system(text)
                 sys.exit()
             
             print(f"Tú: {text}")
             messages.append({"role": "user", "content": text})
 
-            """ response = openai.ChatCompletion.create(
-                model="gpt-4-turbo",
-                messages=messages,
-                
-            ) """
             response = client.chat.completions.create(
                 model="gpt-4-turbo",
                 messages=messages,
                 max_tokens=100,
                 temperature=0.7,
-                max_completion_tokens=100
             )
-            """ response_content = response.choices[0].message['content'] """
             response_content = response.choices[0].message.content
             messages.append({"role": "assistant", "content": response_content})
 
             print(f"AI: {response_content}")
 
             engine.say(response_content)
-            engine.runAndWait()
+            engine.runAndWait() 
 
     except sr.UnknownValueError:
         print("no entendi nada ura")
