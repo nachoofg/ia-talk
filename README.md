@@ -9,7 +9,7 @@
 * ~~voice - ia~~
 * ~~system call~~
 * ~~key press~~
-* context (mas o menos que diga que vaya al punto con las respuestas)
+* ~~context (mas o menos que diga que vaya al punto con las respuestas)~~
 * ~~cambiar voz, que hable con silero tts y voicevox~~
 * vtube studio implementation
 * analyze screen

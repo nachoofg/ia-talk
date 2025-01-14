@@ -10,12 +10,14 @@ import speech_recognition as sr
 import pyttsx3
 import os
 import winsound
+import sys
 from dotenv import load_dotenv
 from utils.speech import silero_tts
 """ 
 no se que mierda pero no funciona
 from utils.translate import translate_google
 """
+sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf8', buffering=1)
 
 load_dotenv()
 
@@ -76,13 +78,19 @@ def catch_audio_and_process():
 
 
 def chat_with_gpt(text):
+    """
+    contexto
+    """
+    with open("identity.txt", "r", encoding="utf-8") as f:
+        identityContext = f.read()
+        messages.append({"role": "user", "content": identityContext})
+    
     messages.append({"role": "user", "content": text})
 
     try:
         response = client.chat.completions.create(
                 model="gpt-4-turbo",
                 messages=messages,
-                max_tokens=100,
                 temperature=0.7,
             )
         response_content = response.choices[0].message.content
@@ -92,11 +100,9 @@ def chat_with_gpt(text):
         textofinal = translate_google(response_content, "es", "en")
         """
 
-        """ print(f"ia en: {textofinal}") """
-        print(f"ia es: {response_content}")
-        """ engine.say(response_content)
-        engine.runAndWait() """
-        silero_tts(response_content, "en", "v3_en", "en_21")
+        print(f"ia es: {response_content.split('--')[1]}")
+        print(f"ia en: {response_content.split('--')[0]}")
+        silero_tts(response_content.split('--')[0], "en", "v3_en", "en_21")
         winsound.PlaySound("test.wav", winsound.SND_FILENAME)
     except Exception as e:
         print(f"error: {e}")
