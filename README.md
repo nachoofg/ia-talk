@@ -11,6 +11,6 @@
 * ~~key press~~
 * ~~context (mas o menos que diga que vaya al punto con las respuestas)~~
 * ~~cambiar voz, que hable con silero tts y voicevox~~
-* vtube studio implementation
+* ~~vtube studio implementation~~ https://youtu.be/UgK3NLhSphg
 * analyze screen
 * osu
